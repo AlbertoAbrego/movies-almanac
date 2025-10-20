@@ -1,13 +1,21 @@
 import { createContext, useContext } from "react"
 import { MovieService } from "@/services/implementations/MovieService"
+import { SerieService } from "@/services/implementations/SerieService"
 import type { IMovieService } from "@/services/interfaces/IMovieService"
+import type { ISerieService } from "@/services/interfaces/ISerieService"
+import type { IPeopleService } from "@/services/interfaces/IPeopleService"
+import { PeopleService } from "@/services/implementations/PeopleService"
 
 interface Dependencies {
     movieService: IMovieService
+    serieService: ISerieService
+    peopleService: IPeopleService
 }
 
 const dependencies: Dependencies = {
     movieService: new MovieService(),
+    serieService: new SerieService(),
+    peopleService: new PeopleService(),
 }
 
 const DependencyContext = createContext<Dependencies>(dependencies)

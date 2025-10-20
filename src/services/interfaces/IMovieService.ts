@@ -1,3 +1,5 @@
+import type { MoivieListResponse } from "@/types/movie.types"
+
 export interface IMovieService {
-    searchMovies(query: string): Promise<[]>
+    getPopularMovies(): Promise<MoivieListResponse>
 }

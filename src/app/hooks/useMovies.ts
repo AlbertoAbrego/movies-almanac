@@ -1,19 +1,13 @@
 import { useDependencies } from "@/context/DependencyContext"
-import { useEffect, useState } from "react"
+import type { Movie } from "@/types/movie.types"
 
-export function useMovies(query: string) {
+export function useMovies() {
     const { movieService } = useDependencies()
-    const [movies, setMovies] = useState([])
-    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        if (!query) return
-        setLoading(true)
-        movieService.searchMovies(query).then((results) => {
-            setMovies(results)
-            setLoading(false)
-        })
-    }, [query])
+    const getPopularMovies = async (): Promise<Movie[]> => {
+        const data = await movieService.getPopularMovies()
+        return data.results
+    }
 
-    return { movies, loading }
+    return { getPopularMovies }
 }

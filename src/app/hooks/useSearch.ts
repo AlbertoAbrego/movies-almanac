@@ -1,5 +1,8 @@
 import { useDependencies } from "@/context/DependencyContext"
-import type { SearchResults } from "@/types/search.types"
+import type {
+    SearchMultiResultsListResponse,
+    SearchResults,
+} from "@/types/search.types"
 
 export function useSearch() {
     const { searchService } = useDependencies()
@@ -11,5 +14,12 @@ export function useSearch() {
         return data.results
     }
 
-    return { getSearchKeyword }
+    const getSearchMulti = async (
+        query: string
+    ): Promise<SearchMultiResultsListResponse> => {
+        const data = await searchService.getSearchMulti(query)
+        return data
+    }
+
+    return { getSearchKeyword, getSearchMulti }
 }

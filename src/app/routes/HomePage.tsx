@@ -7,7 +7,6 @@ import { Carousel } from "@/components/Carousel"
 import type { Movie } from "@/types/movie.types"
 import type { Serie } from "@/types/serie.types"
 import type { People } from "@/types/people.types"
-import { SearchBar } from "@/components/SearchBar"
 
 export const HomePage: React.FC = () => {
     const { getPopularMovies } = useMovies()
@@ -31,7 +30,6 @@ export const HomePage: React.FC = () => {
         <>
             <MainLayout>
                 <div className="justify-items-center">
-                    <SearchBar />
                     <Carousel
                         title="Popular Movies"
                         items={movies}

@@ -17,11 +17,35 @@ export const SearchBar = ({ onSearch, placeholder }: SearchBarProps) => {
         }
     }
     const handleCheckBox = (value: string) => {
-        setFilters((prev) =>
-            prev.includes(value)
-                ? prev.filter((f) => f !== value)
-                : [...prev, value]
-        )
+        if (value === "All") {
+            if (filters.includes(value)) {
+                setFilters([])
+            } else {
+                setFilters((prev) => {
+                    const filtersToAdd = filterOptions.filter(
+                        (option) => !prev.includes(option)
+                    )
+                    return [...prev, ...filtersToAdd]
+                })
+            }
+        } else {
+            setFilters((prev) => {
+                let updated: string[]
+                if (prev.includes(value)) {
+                    updated = prev.filter((f) => f !== value)
+                    if (prev.includes("All")) {
+                        updated = updated.filter((f) => f !== "All")
+                    }
+                } else {
+                    updated = [...prev, value]
+                }
+                const allCheked = filterOptions
+                    .filter((f) => f !== "All")
+                    .every((option) => updated.includes(option))
+                if (allCheked) updated = [...updated, "All"]
+                return updated
+            })
+        }
     }
     return (
         <div className="w-full flex justify-center">
@@ -44,7 +68,10 @@ export const SearchBar = ({ onSearch, placeholder }: SearchBarProps) => {
                 {showFilters && (
                     <div className="absolute right-0 mt-2 bg-gray-900 border border-gray-700 rounded-lg shadow-lg w-40 z-10">
                         {filterOptions.map((filter) => (
-                            <label className="flex items-center gap-2 mb-1 ml-2">
+                            <label
+                                key={filter}
+                                className="flex items-center gap-2 mb-1 ml-2"
+                            >
                                 <input
                                     type="checkbox"
                                     checked={filters.includes(filter)}
